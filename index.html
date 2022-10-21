@@ -7,28 +7,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TV Show Project | FatemRahimi</title>
     <link href="style.css" rel="stylesheet" />
-     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-</head>
-
-<<body>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    </head>
+    
+  <body>
     <div id="root">
       <header id="search-header">
         <select id="list">
-        </select>
-        <input id="search-box" type="text" placeholder="Search.."/>
-        <div id="search-count"></div>
-      </header>
-      <div id="all-episodesDiv"></div>
-    </div>
-    <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
-    <script src="episodes.js"></script>
-    <!-- Loads YOUR javascript code -->
-    <script src="script.js"></script>
-    <footer>
-      <span
-        >Data originated from
-        <a href="https://www.tvmaze.com/">TV Maze</a></span
-      >
-    </footer>
+          <header id="search-header">
+            <!-- id="selectShow"> -->
+            <select class="select selectShow"></select>
+            <select class="select" id="selectEpisode">
+            </select>
+            <input id="search-box" type="text" placeholder="Search.." />
+            <input id="input-searchBox" type="text" placeholder="Search.." />
+            <div id="search-count"></div>
+          </header>
+          <div id="root">
+            <div id="all-episodesDiv"></div>
+          </div>
+  
+          <!-- Loads a provided function called getAllShows() which returns all episodes -->
+          <script src="shows.js"></script>
+  
+          <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
+          <script src="episodes.js"></script>
+  
+          <!-- Loads YOUR javascript code -->
+          <script src="script.js"></script>
+          <footer>
+            <span>Data originated from
+              <a href="https://www.tvmaze.com/">TV Maze</a></span>
+          </footer>
   </body>
-</html>
+  
+  </html>
