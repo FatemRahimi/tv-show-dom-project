@@ -1,21 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TV Show Project | Teniola Ogunjinrin (teniolao)</title>
+  <link href="style.css" rel="stylesheet" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+</head>
 <body>
-  <header id="search-header">
+  <div id="header-container">
+    <div>
+      <h1 class="header">
+        Tv Show
+      </h1>
+      <button class="shows-button" id="back-toshows">View All Shows</button>
+    </div>
+
     <!-- id="selectShow"> -->
     <select class="select selectShow"></select>
-    <select class="select" id="selectEpisode">
-    </select>
-    <input id="input-searchBox" type="text" placeholder="Search.." />
-    <div id="search-count"></div>
-  </header>
+    <select class="select" id="selectEpisode"></select>
+    <div>
+      <input id="searchShow" type="text" placeholder="Search Shows.." />
+      <div id="show-count" class="count"></div>
+      <input id="searchBox" class="count" type="text" placeholder="Search Episodes..." />
+      <div id="search-count"></div>
+    </div>
+  </div>
+
+  <div class="return-shows"></div>
   <div id="root">
-    <ul class="shows-container"></ul>
+    <div id="show-list"></div>
     <div id="all-episodesDiv"></div>
   </div>
 
   <!-- Loads a provided function called getAllShows() which returns all episodes -->
   <script src="shows.js"></script>
+
   <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
   <script src="episodes.js"></script>
+
   <!-- Loads YOUR javascript code -->
   <script src="script.js"></script>
   <footer>
