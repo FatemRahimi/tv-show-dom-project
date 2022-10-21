@@ -1,5 +1,4 @@
-let selectTag = document.getElementById("list");
-const searchBox = document.getElementById("search-box");
+//You can edit ALL of the code here
 let bodyTag = document.getElementsByTagName("body");
 let selectShowTag = document.querySelector(".selectShow");
 let selectEpisodeTag = document.getElementById("selectEpisode");
@@ -10,12 +9,9 @@ let allEpisodesDiv = document.getElementById("all-episodesDiv");
 //let currentEpisodes = [];
 
 function setup() {
-  const allEpisodes = getAllEpisodes();
-  makePageForEpisodes(allEpisodes);
-  selectOption();
-  //event listener
-  selectTag.addEventListener("change", getSelectedValue);
   let allShows = getAllShows();
+  let showsList = getAllShows();
+  // makePageForShows(showsList);
   selectOptionForShows();
 
 
@@ -24,13 +20,38 @@ function setup() {
   searchBox.addEventListener("keyup", onSearchKeyUp);
 }
 
+// function makePageForShows(showsList) {
+//   // allEpisodesDiv.innerHTML = "";
+//   let showsContainer = document.getElementsByClassName("shows-container");
+
+//   showsList.forEach((e) => {
+//     //console.log(e);
+//     let eachShowList = document.createElement("li");
+//     let eachShowHeader = document.createElement("h2");
+//      eachShowList.innerText= e.name;
+
+//     //  eachShowList.appendChild(eachShowHeader);
+//     showsContainer.append(eachShowList);
+//     //console.log(showsContainer);
+//   });
+// }
+
 function selectOptionForShows() {
   let allShows = getAllShows();
+  allShows = allShows.sort((a, b) => {
+    if (a.name.toLowerCase() > b.name.toLowerCase()) {
+      return 1;
+    } else if (a.name.toLowerCase() < b.name.toLowerCase()) {
+      return -1;
+    } else {
+      return 0;
+    }
+  });
+
   const selectAllShows = document.createElement("option");
   selectAllShows.innerText = "View All Shows";
   selectAllShows.value = "All-Shows";
   selectShowTag.appendChild(selectAllShows);
-
   let showList = allShows.forEach((element) => {
     let showOptionTag = document.createElement("option");
     let eachShowList = element.name;
@@ -38,6 +59,7 @@ function selectOptionForShows() {
     //showOptionTag.value = element.id
     showOptionTag.value = element.id;
     //console.log(element.id)
+
     selectShowTag.append(showOptionTag);
     //console.log(element.name);
   });
@@ -55,17 +77,14 @@ function getSelectedShowValue(event) {
     makePageForEpisodes(currentEpisodes);
   });
 }
-
 function selectOptionForEpisodes(episodeList) {
   let selectEpisodeTag = document.getElementById("selectEpisode");
   const selectAllEpisodes = document.createElement("option");
   selectAllEpisodes.innerText = "View All Episodes";
   selectAllEpisodes.value = "All-Episode";
   selectEpisodeTag.appendChild(selectAllEpisodes);
-
   episodeList.forEach((e) => {
     let optionTag = document.createElement("option");
-
     let dropdownList = `${formatSeriesAndEpisode(e.season, e.number)} - ${
       e.name
     }`;
@@ -74,7 +93,6 @@ function selectOptionForEpisodes(episodeList) {
     selectEpisodeTag.append(optionTag);
   });
 }
-
 function getSelectedEpisodeValue(event) {
   const selectedEpisodeId = event.target.value;
   //console.log(selectedEpisodeId);
@@ -87,31 +105,22 @@ function getSelectedEpisodeValue(event) {
     makePageForEpisodes(filteredEpisodes);
   }
 }
-
 function formatSeriesAndEpisode(season, number) {
   return number > 9 ? `S0${season}E${number}` : `S0${season}E0${number}`;
 }
-
 function makePageForEpisodes(episodeList) {
   allEpisodesDiv.innerHTML = "";
-
   episodeList.forEach((e) => {
     let eachEpisodeDiv = document.createElement("div");
     eachEpisodeDiv.setAttribute("class", "episode-div");
     let headerTag = document.createElement("h3");
     let imageTag = document.createElement("img");
     let summaryText = document.createElement("p");
-
     //header - zero-padded to two digits
-    headerTag.innerText =
-      e.number > 9
-        ? `${e.name} - S0${e.season}E${e.number}`
-        : `${e.name} - S0${e.season}E0${e.number}`;
     headerTag.innerText = `${e.name} - ${formatSeriesAndEpisode(
       e.season,
       e.number
     )}`;
-
     //images & summary text
     imageTag.src = e.image.medium;
     let text = e["summary"];
@@ -122,36 +131,8 @@ function makePageForEpisodes(episodeList) {
     allEpisodesDiv.append(eachEpisodeDiv);
   });
 }
-
-function selectOption() {
-  allEpisodes = getAllEpisodes();
-  episodeList = allEpisodes.forEach((e) => {
-    let selectTag = document.getElementById("list");
-    let optionTag = document.createElement("option");
-
-    let dropdownList =
-      e.number > 9
-        ? ` S0${e.season}E${e.number} - ${e.name}`
-        : ` S0${e.season}E0${e.number} - ${e.name}`;
-    optionTag.innerText = dropdownList;
-    selectTag.append(optionTag);
-  });
-}
-
-function getSelectedValue() {
-  let selectedValue = selectTag.value;
-  const filteredEpisodes = allEpisodes.filter((e) => {
-    const episodeName = e.name;
-    return episodeName.includes(selectedValue.substring(9));
-  });
-  allEpisodesDiv.innerHTML = "";
-  makePageForEpisodes(filteredEpisodes);
-}
-
 function onSearchKeyUp(event) {
   const searchTerm = event.target.value.toLowerCase();
-  const allEpisodes = getAllEpisodes();
-  const filteredEpisodes = allEpisodes.filter((e) => {
   //const allEpisodes = getAllEpisodes();
   const filteredEpisodes = currentEpisodes.filter((e) => {
     const episodeName = e.name.toLowerCase();
@@ -161,16 +142,13 @@ function onSearchKeyUp(event) {
     );
   });
   const filteredCount = filteredEpisodes.length;
-  const allCount = allEpisodes.length;
   const allCount = currentEpisodes.length;
   const countString = `Displaying ${filteredCount} / ${allCount}`;
   searchCount.innerText = countString;
   makePageForEpisodes(filteredEpisodes);
 }
-
 function sendRequest(showId) {
   const urlForTheRequest = `https://api.tvmaze.com/shows/${showId}/episodes`;
-
   return fetch(urlForTheRequest)
     .then((res) => res.json())
     .then((data) => {
@@ -179,5 +157,4 @@ function sendRequest(showId) {
     .catch((e) => console.log(e));
 }
 //console.log(sendRequest(82));
-
-window.onload = setup;
+window.onload = setup
