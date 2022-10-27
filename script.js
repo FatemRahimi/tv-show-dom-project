@@ -1,37 +1,27 @@
 let bodyTag = document.getElementsByTagName("body");
 //show tags
 let selectShowTag = document.querySelector(".selectShow");
-let selectEpisodeTag = document.getElementById("selectEpisode");
-const searchBox = document.getElementById("input-searchBox");
-const searchCount = document.getElementById("search-count");
-let allEpisodesDiv = document.getElementById("all-episodesDiv");
 const selectAllShows = document.createElement("option");
 const showList = document.getElementById("show-list");
 //episode tags
 let selectEpisodeTag = document.getElementById("selectEpisode");
 let allEpisodesDiv = document.getElementById("all-episodesDiv");
 //search
-
 const searchShow = document.getElementById("searchShow"); //input search for shows
 const showCount = document.getElementById("show-count"); // shows counter
 const searchEpisode = document.getElementById("searchBox"); // input search for episode
 const episodeCount = document.getElementById("search-count"); // episode counter
 const backToShows = document.getElementById("back-toshows");
-
 let showsList = getAllShows();
 function setup() {
-  let showsList = getAllShows();
   selectOptionForShows(showsList);
   makePageForShows(showsList);
-
-  searchBox.addEventListener("keyup", onSearchKeyUp);
   backToShows.addEventListener("click", goBackToAllShows);
   searchShow.addEventListener("keyup", onSearchKeyUpShow);
   searchEpisode.addEventListener("keyup", onSearchKeyUpEpisode);
   selectEpisodeTag.addEventListener("change", getSelectedEpisodeValue);
   selectShowTag.addEventListener("change", getSelectedShowValue);
 }
-
 function selectOptionForShows(shows) {
   selectShowTag.innerHTML = "";
   // sorting list in order
@@ -47,11 +37,8 @@ function selectOptionForShows(shows) {
   selectAllShows.innerText = "View All Shows";
   selectAllShows.value = "All-Shows";
   selectShowTag.appendChild(selectAllShows);
-
   shows.forEach((show) => {
     let showOptionTag = document.createElement("option");
-    let eachShowList = show.name;
-    showOptionTag.innerText = eachShowList;
     showOptionTag.innerText = show.name;
     showOptionTag.value = show.id;
     selectShowTag.append(showOptionTag);
@@ -78,7 +65,6 @@ function formatSeriesAndEpisode(season, number) {
 }
 function makePageForEpisodes(episodeList) {
   allEpisodesDiv.innerHTML = "";
-
   episodeList.forEach((e) => {
     backToShows.style.display = "block";
     let eachEpisodeDiv = document.createElement("div");
@@ -95,16 +81,11 @@ function makePageForEpisodes(episodeList) {
     if (e.image !== null) {
       imageTag.src = e.image.medium;
     }
-
     //removing all p tags in text content
     let text = e["summary"];
-    text = text.replaceAll("<p>", "");
-    text = text.replaceAll("</p>", "");
-    summaryText.innerText = text;
     let newText = text.replaceAll("<p>", "");
     newText = newText.replaceAll("</p>", "");
     summaryText.innerText = newText;
-
     eachEpisodeDiv.append(headerTag, imageTag, summaryText);
     allEpisodesDiv.append(eachEpisodeDiv);
     searchEpisode.style.display = "block";
@@ -114,12 +95,9 @@ function makePageForEpisodes(episodeList) {
     selectEpisodeTag.style.display = "block";
   });
 }
-
 function makePageForShows(shows) {
-  // allEpisodesDiv.innerHTML = "";
   searchShow.innerText = "";
   showList.innerHTML = "";
-
   shows.forEach((show) => {
     let eachShowList = document.createElement("div");
     let eachShowHeader = document.createElement("h1");
@@ -129,26 +107,23 @@ function makePageForShows(shows) {
     const asideDiv = document.createElement("div");
     eachShowHeader.innerText = show.name;
     summary.innerHTML = show.summary;
-
     // condition to view content with images
     if (show.image !== null) {
-      showImage.src = `${show.image.medium}`;
       showImage.src = show.image.medium;
     }
-
     //aside content
     asideDiv.innerText = `Rated${
       show.rating.average
     } \n Genres: ${show.genres.join(" | ")} \n Status: ${
       show.status
     } \n Runtime: ${show.runtime}`;
-
     //class attributes
-    eachShowList.className = "eachShow-container"; // i have not used it!
     eachShowList.className = "eachShow-container"; // note this!
     wrapDiv.className = "content-wrapper";
     asideDiv.className = "asideDiv";
     summary.className = "span-text";
+    showImage.className = "show-image";
+
     wrapDiv.append(showImage, summary, asideDiv);
     eachShowList.append(eachShowHeader, wrapDiv);
     showList.append(eachShowList);
@@ -167,8 +142,6 @@ function makePageForShows(shows) {
   });
   return shows;
 }
-
-function onSearchKeyUp(event) {
 function onSearchKeyUpShow(event) {
   const searchTerm = event.target.value.toLowerCase();
   const filteredShows = showsList.filter((e) => {
@@ -182,7 +155,6 @@ function onSearchKeyUpShow(event) {
   showCount.innerText = countString;
   makePageForShows(filteredShows);
 }
-
 function onSearchKeyUpEpisode(event) {
   const searchTerm = event.target.value.toLowerCase();
   searchEpisode.innerText = "";
@@ -196,11 +168,9 @@ function onSearchKeyUpEpisode(event) {
   const filteredCount = filteredEpisodes.length;
   const allCount = currentEpisodes.length;
   const countString = `Displaying ${filteredCount} / ${allCount}`;
-  searchCount.innerText = countString;
   episodeCount.innerText = countString;
   makePageForEpisodes(filteredEpisodes);
 }
-
 function getSelectedEpisodeValue(event) {
   const selectedEpisodeId = event.target.value;
   if (selectedEpisodeId === "All-Episode") {
@@ -212,15 +182,8 @@ function getSelectedEpisodeValue(event) {
     makePageForEpisodes(filteredEpisodes);
   }
 }
-
 function getSelectedShowValue(event) {
   let selectedShowId = event.target.value;
-  sendRequest(selectedShowId).then((data) => {
-    currentEpisodes = data;
-    console.log(data);
-    selectOptionForEpisodes(currentEpisodes);
-    makePageForEpisodes(currentEpisodes);
-  });
   if (selectedShowId === "All-Shows") {
     makePageForShows(showsList);
   } else {
@@ -233,22 +196,18 @@ function getSelectedShowValue(event) {
     });
   }
 }
-
 function goBackToAllShows() {
   backToShows.style.display = "none";
   allEpisodesDiv.innerHTML = "";
   showList.style.display = "block";
-
   selectEpisodeTag.style.display = "none";
   searchEpisode.style.display = "none";
   episodeCount.style.display = "none";
   searchShow.style.display = "block";
   showCount.style.display = "block";
 }
-
 function sendRequest(showId) {
   const urlForTheRequest = `https://api.tvmaze.com/shows/${showId}/episodes`;
-
   return fetch(urlForTheRequest)
     .then((res) => res.json())
     .then((data) => {
