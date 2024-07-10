@@ -1,4 +1,8 @@
+
+
 let bodyTag = document.getElementsByTagName("body");
+console.log(bodyTag);
+
 //show tags
 let selectShowTag = document.querySelector(".selectShow");
 const selectAllShows = document.createElement("option");
