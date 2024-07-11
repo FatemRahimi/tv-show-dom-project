@@ -1,8 +1,4 @@
-
-
 let bodyTag = document.getElementsByTagName("body");
-console.log(bodyTag);
-
 //show tags
 let selectShowTag = document.querySelector(".selectShow");
 const selectAllShows = document.createElement("option");
@@ -250,4 +246,4 @@ function sendRequest(showId) {
     })
     .catch((e) => console.log(e));
 }
-window.onload = setup;
+window.onload = setup;  

@@ -1,5 +1,16 @@
 {
   "dependencies": {
     "jsdom": "^24.1.0"
-  }
+  },
+  "name": "tv-show-dom-project",
+  "version": "1.0.0",
+  "description": "A starting point for CYF's TV show DOM project",
+  "main": "episodes.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
